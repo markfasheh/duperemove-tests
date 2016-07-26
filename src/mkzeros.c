@@ -11,7 +11,7 @@
 #include <err.h>
 
 static unsigned int blocksize = 128*1024;
-static unsigned int ratio = 100;
+static unsigned int ratio = 40;
 static unsigned long long size_bytes = (8ULL)*(1024*1024*1024);
 static unsigned long long size_blocks;
 static char fill = 1;
@@ -101,7 +101,7 @@ static int create_files(void)
 
 static void usage(void)
 {
-	printf("Usage information\n");
+	printf("mkzeros -b blocksize -r ratio -s size filelist\n");
 }
 
 static int parse_opts(int argc, char **argv)
