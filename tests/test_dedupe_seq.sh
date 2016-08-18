@@ -1,6 +1,8 @@
 #!/bin/bash -x
+
+. `dirname $0`/config
+
 DEST=/btrfs/dedupe_seq
-DUPEREMOVE=/build/mfasheh/duperemove.git/duperemove
 BS=$((128*1024))
 
 #define MAX_DEDUPES_PER_IOCTL	120

@@ -1,0 +1,18 @@
+#
+# Edit this for your purposes then copy to duperemove-tests.git/tests/config
+#
+
+# Path to duperemove
+DUPEREMOVE=duperemove
+
+# Path to mkzeros test program
+MKZEROS=../src/mkzeros
+
+# Path to fdupes
+FDUPES=fdupes
+
+# Where we can run our tests, this must be on an fs which supports extent-same
+TESTDIR=testdir
+
+# non root user for some tests to use
+TMPUSER=nobody

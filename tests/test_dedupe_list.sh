@@ -1,11 +1,11 @@
 #!/bin/bash
 
+. `dirname $0`/config
+
 # These tests are designed to stress the code in dedupe_extent_list()
 # and make it crash due to leaked contexts/fds.
 
-DEST=/btrfs/
-DUPEREMOVE=/build/mfasheh/duperemove.git/duperemove
-TMPUSER=mfasheh
+DEST=$TESTDIR/
 BS=$((128*1024))
 
 #define MAX_DEDUPES_PER_IOCTL	120

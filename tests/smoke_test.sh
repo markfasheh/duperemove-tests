@@ -1,11 +1,10 @@
 #!/bin/bash
 
-DEST=/btrfs/basic
+. `dirname $0`/config
+
+DEST=$TESTDIR/basic
 HASHFILE=$DEST/test.hash
-DUPEREMOVE=/build/mfasheh/duperemove.git/duperemove
-MKZEROS=/build/mfasheh/duperemove-tests.git/src/mkzeros
 BS=$((128*1024))
-FDUPES=fdupes
 SIZE=$((4*1024*1024))
 
 prep_dirs() {
