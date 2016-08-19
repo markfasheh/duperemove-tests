@@ -37,6 +37,10 @@ prep_secondary_dirs() {
 
 prep_dirs
 
+# --version and --help options should not return error
+_run_duperemove --version
+_run_duperemove --help
+
 echo "Test memory only operation"
 #memory only, don't dedupe yet
 _run_duperemove -rhv $DEST/testdir*
