@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <malloc.h>
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -14,13 +15,22 @@ static unsigned int blocksize = 128*1024;
 static unsigned int ratio = 40;
 static unsigned long long size_bytes = (8ULL)*(1024*1024*1024);
 static unsigned long long size_blocks;
-static char fill = 1;
+static unsigned long long fill;
 
 static unsigned int numfiles = 0;
 static char **files;
 
 static unsigned long long wtotal=0;
 static unsigned long long wzeroed=0;
+
+/* Not that this changes often but it felt better than a bare '8' */
+#define	ull_bytes sizeof(unsigned long long)
+
+static void init_fill(void)
+{
+	unsigned long long low = rand(), high = rand();
+	fill = low | (high << 32);
+}
 
 static int should_use_garbage(void)
 {
@@ -33,10 +43,13 @@ static int should_use_garbage(void)
 
 static char *select_buf(char *zeros, char *nonzeros)
 {
+	int i;
+	unsigned long long *g = (unsigned long long *)nonzeros;
+
 	if (should_use_garbage()) {
-		memset(nonzeros, fill++, blocksize);
-		if (!fill)
-			fill = 1;
+		for(i = 0; i < blocksize / ull_bytes; i++)
+			g[i] = fill;
+		fill++;
 		return nonzeros;
 	}
 	return zeros;
@@ -46,6 +59,8 @@ static int write_file(const char *filename, char *zero_buf, char *nonzero_buf)
 {
 	int i, fd, count, ret = 0;
 	char *buf;
+
+	init_fill();
 
 	printf("Write file \"%s\"\n", filename);
 
@@ -84,7 +99,7 @@ static int create_files(void)
 	zeros = calloc(1, blocksize);
 	if (!zeros)
 		return ENOMEM;
-	garbage = malloc(blocksize);
+	garbage = aligned_alloc(ull_bytes, blocksize);
 	if (!garbage) {
 		free(zeros);
 		return ENOMEM;
@@ -93,10 +108,14 @@ static int create_files(void)
 	for (i = 0; i < numfiles; i++) {
 		err = write_file(files[i], zeros, garbage);
 		if (err)
-			return err;
+			goto out;
 	}
 
-	return 0;
+	err = 0;
+out:
+	free(zeros);
+	free(garbage);
+	return err;
 }
 
 static void usage(void)
