@@ -1,9 +1,9 @@
-#!/bin/bash -x
+#!/bin/bash
 
 . `dirname $0`/config || exit 1
 . `dirname $0`/common || exit 1
 
-DEST=/btrfs/dedupe_seq
+DEST=$TESTDIR/dedupe_seq
 BS=$((128*1024))
 
 #define MAX_DEDUPES_PER_IOCTL	120
