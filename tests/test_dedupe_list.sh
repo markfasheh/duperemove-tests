@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . `dirname $0`/config || exit 1
+. `dirname $0`/common || exit 1
 
 # These tests are designed to stress the code in dedupe_extent_list()
 # and make it crash due to leaked contexts/fds.
@@ -36,10 +37,10 @@ done
 
 btrfs fi sy $DEST
 
-$DUPEREMOVE -vrd $DEST/exactly/
-$DUPEREMOVE -vrd $DEST/oneover/
-$DUPEREMOVE -vrd $DEST/justunder/
-$DUPEREMOVE -vrd $DEST/manyloops/
+_run_duperemove -vrd $DEST/exactly/
+_run_duperemove -vrd $DEST/oneover/
+_run_duperemove -vrd $DEST/justunder/
+_run_duperemove -vrd $DEST/manyloops/
 
 #test for issue#132, issue#134
 #Do the same thing twice, but switching which file is 'bad' so we

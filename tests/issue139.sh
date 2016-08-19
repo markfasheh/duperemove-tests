@@ -6,6 +6,7 @@
 #
 
 . `dirname $0`/config || exit 1
+. `dirname $0`/common || exit 1
 
 DEST=$TESTDIR/issue139
 HASHFILE=$DEST/test.hash
@@ -20,7 +21,7 @@ do
 done
 
 # create initial hashfile
-$DUPEREMOVE -rdh --hashfile=$HASHFILE $DEST/testfile*
+_run_duperemove -rdh --hashfile=$HASHFILE $DEST/testfile*
 
 # truncate one of the files so it will be skipped in our next file scan
 > $DEST/testfile_0
@@ -29,8 +30,4 @@ $DUPEREMOVE -rdh --hashfile=$HASHFILE $DEST/testfile*
 # through as well.
 touch $DEST/testfile_1
 
-$DUPEREMOVE -rdh --hashfile=$HASHFILE $DEST/testfile*
-if [ $? -ne 0 ]; then
-    echo "FAILURE: Bad return code from duperemove"
-    exit 1
-fi
+_run_duperemove -rdh --hashfile=$HASHFILE $DEST/testfile*

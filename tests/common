@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# Common functions for all tests to use
+#
+
+_run_duperemove()
+{
+    if [ ! -x $DUPEREMOVE ]; then
+	echo "TEST FAILURE: No duperemove executable at $DUPEREMOVE"
+	exit 1;
+    fi
+
+    $DUPEREMOVE $*
+    _ret=$?
+    if [ $_ret -ne 0 ]; then
+	echo "TEST FAILURE: Error code is $_ret"
+	exit 1
+    fi
+}

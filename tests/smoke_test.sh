@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . `dirname $0`/config || exit 1
+. `dirname $0`/common || exit 1
 
 DEST=$TESTDIR/basic
 HASHFILE=$DEST/test.hash
@@ -38,7 +39,7 @@ prep_dirs
 
 echo "Test memory only operation"
 #memory only, don't dedupe yet
-$DUPEREMOVE -rhv $DEST/testdir*
+_run_duperemove -rhv $DEST/testdir*
 
 echo "Test fdupes mode"
 DIR=$DEST/fdupes
@@ -48,24 +49,24 @@ cp $DIR/dupefileA.1 $DIR/dupefileA.2
 cp $DIR/dupefileA.1 $DIR/dupefileA.3
 dd if=/dev/urandom of=$DIR/dupefileB.1  bs=$BS count=10 iflag=fullblock
 cp $DIR/dupefileB.1 $DIR/dupefileB.2
-$FDUPES -r $DIR | $DUPEREMOVE --fdupes -dv
+$FDUPES -r $DIR | _run_duperemove --fdupes -dv
 
 echo "Test write-hashes"
-$DUPEREMOVE -rhv --write-hashes=$HASHFILE $DEST/testdir*
+_run_duperemove -rhv --write-hashes=$HASHFILE $DEST/testdir*
 
 echo "Test read-hashes"
-$DUPEREMOVE -rhv --read-hashes=$HASHFILE
+_run_duperemove -rhv --read-hashes=$HASHFILE
 
 rm -f $HASHFILE
 
 echo "Test basic hashfile"
 #now store in a hashfile, do dedupe
-$DUPEREMOVE -rdhv --hashfile=$HASHFILE $DEST/testdir*
+_run_duperemove -rdhv --hashfile=$HASHFILE $DEST/testdir*
 
 echo "Test basic hashfile update"
 prep_secondary_dirs
 #dedupe again we should only re-hash testdir_extra
-$DUPEREMOVE -rdhv --hashfile=$HASHFILE $DEST/testdir*
+_run_duperemove -rdhv --hashfile=$HASHFILE $DEST/testdir*
 
 # do it all again in block dedupe mode
 rm -f $HASHFILE
@@ -75,4 +76,4 @@ prep_secondary_dirs
 
 echo "Test basic hashfile (block dedupe)"
 #now store in a hashfile, do dedupe
-$DUPEREMOVE -rdhv --dedupe-options=block --hashfile=$HASHFILE $DEST/testdir*
+_run_duperemove -rdhv --dedupe-options=block --hashfile=$HASHFILE $DEST/testdir*
