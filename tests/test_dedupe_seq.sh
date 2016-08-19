@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-. `dirname $0`/config
+. `dirname $0`/config || exit 1
 
 DEST=/btrfs/dedupe_seq
 BS=$((128*1024))

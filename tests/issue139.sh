@@ -5,7 +5,7 @@
 # aborting with ENOMEM when this would happen.
 #
 
-. `dirname $0`/config
+. `dirname $0`/config || exit 1
 
 DEST=$TESTDIR/issue139
 HASHFILE=$DEST/test.hash

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. `dirname $0`/config
+. `dirname $0`/config || exit 1
 
 DEST=$TESTDIR/basic
 HASHFILE=$DEST/test.hash
