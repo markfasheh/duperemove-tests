@@ -23,6 +23,10 @@ static char **files;
 static unsigned long long wtotal=0;
 static unsigned long long wzeroed=0;
 
+static int quiet = 0;
+
+#define qprintf(args...)        if (!quiet) printf(args)
+
 /* Not that this changes often but it felt better than a bare '8' */
 #define	ull_bytes sizeof(unsigned long long)
 
@@ -62,12 +66,13 @@ static int write_file(const char *filename, char *zero_buf, char *nonzero_buf)
 
 	init_fill();
 
-	printf("Write file \"%s\"\n", filename);
+	qprintf("Write file \"%s\"\n", filename);
 
 	fd = open(filename, O_WRONLY|O_CREAT, 0644);
 	if (fd < 0) {
+		ret = errno;
 		warn("Error while opening %s", filename);
-		return errno;
+		return ret;
 	}
 
 	for (i = 0; i < size_blocks; i++) {
@@ -120,14 +125,14 @@ out:
 
 static void usage(void)
 {
-	printf("mkzeros -b blocksize -r ratio -s size filelist\n");
+	printf("mkzeros -b blocksize -r ratio -s size -q filelist\n");
 }
 
 static int parse_opts(int argc, char **argv)
 {
 	int c;
 
-	while ((c = getopt(argc, argv, "b:r:s:")) != -1) {
+	while ((c = getopt(argc, argv, "b:r:s:q")) != -1) {
 		switch (c) {
 		case 'b':
 			blocksize = atoi(optarg);
@@ -137,6 +142,9 @@ static int parse_opts(int argc, char **argv)
 			break;
 		case 's':
 			size_bytes = strtoull(optarg, NULL, 0);
+			break;
+		case 'q':
+			quiet = 1;
 			break;
 		default:
 			fprintf(stderr, "Invalid argument: %s\n\n", optarg);
@@ -166,12 +174,12 @@ int main(int argc, char **argv)
 
 	srand(time(NULL));
 
-	printf("blocksize: %u, ratio: %u, numfiles: %u\n", blocksize, ratio,
-	       numfiles);
+	qprintf("blocksize: %u, ratio: %u, numfiles: %u\n", blocksize, ratio,
+		numfiles);
 	ret = create_files();
 
-	printf("Wrote %llu blocks, %llu zeroed, actual ratio: %f\n", wtotal,
-	       wzeroed, (double)wzeroed/wtotal);
+	qprintf("Wrote %llu blocks, %llu zeroed, actual ratio: %f\n", wtotal,
+		wzeroed, (double)wzeroed/wtotal);
 
 	return ret;
 }
