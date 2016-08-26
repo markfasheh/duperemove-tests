@@ -27,3 +27,13 @@ _run_dd()
 	exit 1
     fi
 }
+
+_run_mkzeros()
+{
+    $MKZEROS -q $@
+    _ret=$?
+    if [ $_ret -ne 0 ]; then
+	echo "dd failure: Error code is $_ret"
+	exit 1
+    fi
+}

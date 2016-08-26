@@ -16,7 +16,7 @@ prep_dirs() {
     do
 	DIR="$DEST/testdir_$i"
 	mkdir -p $DIR/
-	$MKZEROS -s $SIZE $DIR/0 $DIR/1 $DIR/2 $DIR/3
+	_run_mkzeros -s $SIZE $DIR/0 $DIR/1 $DIR/2 $DIR/3
     done
 
     wait
@@ -30,7 +30,7 @@ prep_secondary_dirs() {
     #make a fresh directory so we can add it to the hashfile
     DIR="$DEST/testdir_extra"
     mkdir -p $DIR/
-    $MKZEROS -s $SIZE $DIR/0 $DIR/1 $DIR/2 $DIR/3
+    _run_mkzeros -s $SIZE $DIR/0 $DIR/1 $DIR/2 $DIR/3
     wait
     btrfs fi sync $DEST
 }
