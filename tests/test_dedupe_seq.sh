@@ -12,7 +12,7 @@ rm -f $DEST/*
 mkdir -p $DEST
 
 for i in `seq -w 1 15`; do
-    dd if=/dev/zero of=$DEST/$i bs=$BS count=1
+    _run_dd if=/dev/zero of=$DEST/$i bs=$BS count=1
 done
 
 btrfs fi sync $DEST

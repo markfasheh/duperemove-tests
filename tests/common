@@ -17,3 +17,13 @@ _run_duperemove()
 	exit 1
     fi
 }
+
+_run_dd()
+{
+    dd status=none $@
+    _ret=$?
+    if [ $_ret -ne 0 ]; then
+	echo "dd failure: Error code is $_ret"
+	exit 1
+    fi
+}

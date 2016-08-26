@@ -48,10 +48,10 @@ _run_duperemove -rhv $DEST/testdir*
 echo "Test fdupes mode"
 DIR=$DEST/fdupes
 mkdir -p $DIR
-dd if=/dev/zero of=$DIR/dupefileA.1 bs=$BS count=10
+_run_dd if=/dev/zero of=$DIR/dupefileA.1 bs=$BS count=10
 cp $DIR/dupefileA.1 $DIR/dupefileA.2
 cp $DIR/dupefileA.1 $DIR/dupefileA.3
-dd if=/dev/urandom of=$DIR/dupefileB.1  bs=$BS count=10 iflag=fullblock
+_run_dd if=/dev/urandom of=$DIR/dupefileB.1  bs=$BS count=10 iflag=fullblock
 cp $DIR/dupefileB.1 $DIR/dupefileB.2
 $FDUPES -r $DIR | _run_duperemove --fdupes -dv
 
