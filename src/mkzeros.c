@@ -174,8 +174,8 @@ int main(int argc, char **argv)
 
 	srand(time(NULL));
 
-	qprintf("blocksize: %u, ratio: %u, numfiles: %u\n", blocksize, ratio,
-		numfiles);
+	qprintf("blocksize: %u, #blocks: %llu, ratio: %u, numfiles: %u\n",
+		blocksize, size_blocks, ratio, numfiles);
 	ret = create_files();
 
 	qprintf("Wrote %llu blocks, %llu zeroed, actual ratio: %f\n", wtotal,
