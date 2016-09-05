@@ -172,7 +172,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	srand(time(NULL));
+	srand(time(NULL) ^ getpid());
 
 	qprintf("blocksize: %u, #blocks: %llu, ratio: %u, numfiles: %u\n",
 		blocksize, size_blocks, ratio, numfiles);
