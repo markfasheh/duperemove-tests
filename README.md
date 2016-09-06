@@ -6,7 +6,7 @@ check very specific conditions.
 
 To run:
 
-0) make
-1) cp tests/config.sample tests/config
-2) edit tests/config to match your environment
-3) run the .sh files in tests/ (or at least run smoke_test.sh)
+1. make
+2. cp tests/config.sample tests/config
+3. edit tests/config to match your environment
+4. run the .sh files in tests/ (or at least run smoke_test.sh)
