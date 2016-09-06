@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. `dirname $0`/config || exit 1
+. `dirname $0`/../config || exit 1
 . `dirname $0`/common || exit 1
 
 DEST=$TESTDIR/dedupe_seq

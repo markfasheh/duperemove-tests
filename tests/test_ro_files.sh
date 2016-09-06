@@ -3,7 +3,7 @@
 # See issue#129, this should work but doesn't right now.
 #
 
-. `dirname $0`/config || exit 1
+. `dirname $0`/../config || exit 1
 . `dirname $0`/common || exit 1
 
 DEST=$TESTDIR/ro_files

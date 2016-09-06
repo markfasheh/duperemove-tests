@@ -8,7 +8,7 @@
 # inode/subvol pairs in the file table.
 #
 
-. `dirname $0`/config || exit 1
+. `dirname $0`/../config || exit 1
 . `dirname $0`/common || exit 1
 
 BASEDIR=$TESTDIR/changing

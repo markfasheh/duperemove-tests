@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. `dirname $0`/config || exit 1
+. `dirname $0`/../config || exit 1
 . `dirname $0`/common || exit 1
 
 # These tests are designed to stress the code in dedupe_extent_list()
