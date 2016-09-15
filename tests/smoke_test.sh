@@ -72,12 +72,16 @@ prep_secondary_dirs
 #dedupe again we should only re-hash testdir_extra
 _run_duperemove -rdhv --hashfile=$HASHFILE $DEST/testdir*
 
-# do it all again in block dedupe mode
+echo "Test basic hashfile (no fiemap)"
 rm -f $HASHFILE
-
 prep_dirs
 prep_secondary_dirs
+_run_duperemove -rdh --dedupe-options=nofiemap --hashfile=$HASHFILE \
+    $DEST/testdir*
 
 echo "Test basic hashfile (block dedupe)"
-#now store in a hashfile, do dedupe
-_run_duperemove -rdhv --dedupe-options=block --hashfile=$HASHFILE $DEST/testdir*
+rm -f $HASHFILE
+prep_dirs
+prep_secondary_dirs
+_run_duperemove -rdhv --dedupe-options=block --hashfile=$HASHFILE \
+    $DEST/testdir*
