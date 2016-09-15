@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# Tests basic functions of duperemove
+#
 
 . `dirname $0`/../config || exit 1
 . `dirname $0`/common || exit 1

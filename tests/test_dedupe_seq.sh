@@ -1,4 +1,10 @@
 #!/bin/bash
+#
+# This test is designed to ensure that the dedupe sequence tracking
+# done in duperemove is working correctly. Dedupe sequence is a global
+# counter in our hashfile that gets bumped each time a dedupe pass is
+# run. We use it to tell when a file has already been deduped.
+#
 
 . `dirname $0`/../config || exit 1
 . `dirname $0`/common || exit 1

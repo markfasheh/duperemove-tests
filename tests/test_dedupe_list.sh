@@ -1,10 +1,11 @@
 #!/bin/bash
+#
+# These tests are designed to stress the code in dedupe_extent_list()
+# and make it crash due to leaked contexts/fds.
+#
 
 . `dirname $0`/../config || exit 1
 . `dirname $0`/common || exit 1
-
-# These tests are designed to stress the code in dedupe_extent_list()
-# and make it crash due to leaked contexts/fds.
 
 DEST=$TESTDIR/
 BS=$((128*1024))
