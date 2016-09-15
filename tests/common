@@ -3,6 +3,12 @@
 # Common functions for all tests to use
 #
 
+test_failure()
+{
+    echo "TEST FAILURE: Error code is $1"
+    exit 1
+}
+
 _run_duperemove()
 {
     if [ ! -x $DUPEREMOVE ]; then
@@ -13,8 +19,7 @@ _run_duperemove()
     $DUPEREMOVE $*
     _ret=$?
     if [ $_ret -ne 0 ]; then
-	echo "TEST FAILURE: Error code is $_ret"
-	exit 1
+	test_failure $_ret
     fi
 }
 

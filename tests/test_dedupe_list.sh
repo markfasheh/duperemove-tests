@@ -50,9 +50,15 @@ _run_dd if=/dev/zero of=$DEST/1 bs=$BS count=1
 _run_dd if=/dev/zero of=$DEST/2 bs=$BS count=1
 chown $TMPUSER $DEST/2
 sudo -u $TMPUSER $DUPEREMOVE -vd $DEST/1 $DEST/2
+if [ $? -ne 0 ]; then
+    test_failure $?
+fi
 
 rm -f $DEST/1 $DEST/2
 _run_dd if=/dev/zero of=$DEST/1 bs=$BS count=1
 _run_dd if=/dev/zero of=$DEST/2 bs=$BS count=1
 chown $TMPUSER $DEST/1
 sudo -u $TMPUSER $DUPEREMOVE -vd $DEST/1 $DEST/2
+if [ $? -ne 0 ]; then
+    test_failure $?
+fi

@@ -31,8 +31,7 @@ fi
 
 grep -q "Invalid argument" $DEST/log
 if [ $? -eq 0 ]; then
-    echo "TEST FAILURE: Invalid argument returned"
-    exit 1;
+    test_failure 22
 fi
 
 exit 0
