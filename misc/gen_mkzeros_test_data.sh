@@ -46,28 +46,47 @@ NUMCOPIES=0
 
 . `dirname $0`/../config || exit 1
 
+make_files() {
+    local filelist="$*"
+
+    if [ -z "$filelist" ]; then
+	return ;
+    fi
+
+    $MKZEROS -s $SIZE -r 40 $filelist
+
+    if [ $NUMCOPIES -gt 0 ];
+    then
+	iter=0;
+	for file in $filelist;
+	do
+	    for j in `seq 1 $(($NUMCOPIES-1))`;
+	    do
+		dd if=$file of=$DEST/testfile.$j.$iter bs=1M
+		# cat $file > $DEST/testfile.$j.$iter
+	    done
+	    iter=$(($iter+1))
+	done
+    fi
+}
+
 DEST=$TESTDIR/mkzeros_test_data/
 
 mkdir -p $DEST
 rm -fr $DEST/*
 
 FILELIST=""
-for i in `seq 0 $(($FILECOUNT-1))`;
-do
+i=0
+while [ $i -lt $FILECOUNT ]; do
     FILELIST="$FILELIST $DEST/testfile.0.$i"
+    i=$(($i+1));
+
+    # Don't let filelist get too long
+    mod=$(($i % 100));
+    if [ $mod -eq 0 ]; then
+	make_files $FILELIST
+	FILELIST=""
+    fi
 done
 
-$MKZEROS -s $SIZE -r 40 $FILELIST
-
-if [ $NUMCOPIES -gt 0 ];
-then
-    iter=0;
-    for file in $FILELIST;
-    do
-	for j in `seq 1 $(($NUMCOPIES-1))`;
-	do
-	    cat $file > $DEST/testfile.$j.$iter
-	done
-	iter=$(($iter+1))
-    done
-fi
+make_files $FILELIST
