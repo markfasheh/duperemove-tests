@@ -42,6 +42,11 @@ NUMCOPIES=0
 #SIZE=$((10*1024*1024))
 #FILECOUNT=10
 #NUMCOPIES=5
+#
+# Test a lot of small (1.5meg) files
+SIZE=1572864
+FILECOUNT=500000
+NUMCOPIES=0
 
 
 . `dirname $0`/../config || exit 1
