@@ -44,9 +44,9 @@ NUMCOPIES=0
 #NUMCOPIES=5
 #
 # Test a lot of small (1.5meg) files
-SIZE=1572864
-FILECOUNT=500000
-NUMCOPIES=0
+#SIZE=1572864
+#FILECOUNT=500000
+#NUMCOPIES=0
 
 
 . `dirname $0`/../config || exit 1
