@@ -5,7 +5,7 @@ The hashfiles are too large to store directly in git - you'll need to
 install githubs open-source 'git-lfs' extension from
 https://git-lfs.github.com/
 
-You can then run 'git lfs checkout' to pull the files directly into
+You can then run 'git lfs pull' to pull the files directly into
 your checked out copy.
 
 The data was generated via various runs of gen_mkzeros_test_data.sh so
