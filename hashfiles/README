@@ -1,0 +1,23 @@
+There are some sample Duperemove v0.11 hashfiles. They are primarily
+used for testing find-dupes via the --read-hashes switch.
+
+The hashfiles are too large to store directly in git - you'll need to
+install githubs open-source 'git-lfs' extension from
+https://git-lfs.github.com/
+
+You can then run 'git lfs checkout' to pull the files directly into
+your checked out copy.
+
+The data was generated via various runs of gen_mkzeros_test_data.sh so
+keep in mind that it's unrealistically regular and tends towards just
+having one large bucket of zero dupes. Still, it's been tremendously
+helpful for doing timing tests of find-dupes changes.
+
+File names are straightforward - #files_size.dup.
+
+108_files_8G.dup.xz was heavily used for performance testing of the
+find-dupes stage during v0.11.
+
+The rest are incrementally smaller versions of a 500,000 file data set
+I created for testing. We have many versions of this data so that it
+can be tested on a wide variety of machines.
