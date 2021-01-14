@@ -2,6 +2,9 @@
 # Edit this for your purposes then copy to duperemove-tests.git/config
 #
 
+# Path to sqlite3 binary
+SQLITEBIN=/usr/bin/sqlite3
+
 # Path to duperemove
 DUPEREMOVE=duperemove
 
