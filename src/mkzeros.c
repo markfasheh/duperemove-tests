@@ -28,9 +28,10 @@
 #include <time.h>
 #include <err.h>
 
+static unsigned int seed = 0;
 static unsigned int blocksize = 128*1024;
 static unsigned int ratio = 40;
-static unsigned long long size_bytes = (8ULL)*(1024*1024*1024);
+static unsigned long long size_bytes = (2ULL)*(1024*1024*1024);
 static unsigned long long size_blocks;
 static unsigned long long fill;
 
@@ -142,14 +143,14 @@ out:
 
 static void usage(void)
 {
-	printf("mkzeros -b blocksize -r ratio -s size -q filelist\n");
+	printf("mkzeros -b blocksize -r ratio -s size -q -S seed filelist\n");
 }
 
 static int parse_opts(int argc, char **argv)
 {
 	int c;
 
-	while ((c = getopt(argc, argv, "b:r:s:q")) != -1) {
+	while ((c = getopt(argc, argv, "b:r:s:qS:")) != -1) {
 		switch (c) {
 		case 'b':
 			blocksize = atoi(optarg);
@@ -162,6 +163,9 @@ static int parse_opts(int argc, char **argv)
 			break;
 		case 'q':
 			quiet = 1;
+			break;
+		case 'S':
+			seed = strtoul(optarg, NULL, 10);
 			break;
 		default:
 			fprintf(stderr, "Invalid argument: %s\n\n", optarg);
@@ -176,6 +180,8 @@ static int parse_opts(int argc, char **argv)
 	}
 	files = &argv[optind];
 	size_blocks = size_bytes / blocksize;
+	if (!seed)
+		seed = time(NULL) ^ getpid();
 
 	return 0;
 }
@@ -189,8 +195,9 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	srand(time(NULL) ^ getpid());
+	srand(seed);
 
+	printf("seed: %u\n", seed);
 	qprintf("blocksize: %u, #blocks: %llu, ratio: %u, numfiles: %u\n",
 		blocksize, size_blocks, ratio, numfiles);
 	ret = create_files();
