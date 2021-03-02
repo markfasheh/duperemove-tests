@@ -99,3 +99,9 @@ cur_md5sum=$($SQLITEBIN $HASHFILE "select hex(digest) from hashes" | $MD5SUMBIN 
 if [ $md5sum != $cur_md5sum ]; then
 	echo "md5sum not maching" ; exit 1;
 fi
+
+echo "Test hashfile permissions"
+perms=$(stat -c %a $HASHFILE)
+if [ $perms != "600" ]; then
+	echo "Hash file has different perms than 600: $perms"; exit 1;
+fi
