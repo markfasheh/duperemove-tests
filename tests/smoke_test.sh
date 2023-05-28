@@ -88,3 +88,20 @@ prep_dirs
 prep_secondary_dirs
 _run_duperemove -rdhv --dedupe-options=noblock --hashfile=$HASHFILE \
     $DEST/testdir*
+
+echo "Test write-hashes-v2"
+rm -f $HASHFILE
+md5sum="020251fd5a92b2f9601231af8edb2b61"
+_run_mkzeros -s 2147483648 -r 0 -S 1610996591 $DEST/large-file
+_run_duperemove --write-hashes-v2=$HASHFILE $DEST/large-file
+cur_md5sum=$($SQLITEBIN $HASHFILE "select hex(digest) from hashes" | $MD5SUMBIN | awk '{printf $1}')
+
+if [ $md5sum != $cur_md5sum ]; then
+	echo "md5sum not maching" ; exit 1;
+fi
+
+echo "Test hashfile permissions"
+perms=$(stat -c %a $HASHFILE)
+if [ $perms != "600" ]; then
+	echo "Hash file has different perms than 600: $perms"; exit 1;
+fi
